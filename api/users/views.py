@@ -19,8 +19,8 @@ class UserRegistrationView(generics.CreateAPIView):
 
         return Response({
             'status': 'success',
+            'message': 'User registerd successfully',
             'data': CustomUserSerializer(user, context=self.get_serializer_context()).data,
-            'message': 'User registerd successfully'
         }, status=status.HTTP_201_CREATED)
 
 
@@ -30,3 +30,12 @@ class UserProfileView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user   
+    
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response({
+            'status': 'success',
+            "message": "User profile retrieved successfully",
+            "data": serializer.data
+        }, status=status.HTTP_200_OK)
